@@ -34,7 +34,7 @@ export function renderTimeline(months, onDayClick) {
 
 export async function loadTimeline(start, end, types, onDayClick) {
     try{
-        const res = await fetch(`/update_timeline?start=${start}&end=${end}&types=${types}`);
+        const res = await fetch(`/api/timeline?start=${start}&end=${end}&types=${types}`);
         const months = await res.json();
         renderTimeline(months, onDayClick)
 

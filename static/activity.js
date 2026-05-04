@@ -8,7 +8,7 @@ export async function loadActivityDetail(params, container, titleEl, mapInstance
     // 1. Maintain the original animation trigger
     animateTransition("activity-detail-content");
 
-    const data = await fetchData('/activity_detail', params);
+    const data = await fetchData('/api/activity', params);
     const hasData = data.exists && data.activities.length > 0;
 
     // 2. Maintain both content AND map state toggles

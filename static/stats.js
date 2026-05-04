@@ -4,7 +4,7 @@ import { fetchData } from './api.js';
 export async function loadStats(start, end, types) {
     try {
         const params = { start, end, types };
-        const data = await fetchData('/update_stats', params);
+        const data = await fetchData('/api/stats', params);
         updateStat("total-miles", data.total_miles);
         updateStat("total-time", data.total_time);
         updateStat("total-activities", data.total_activities);
