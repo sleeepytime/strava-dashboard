@@ -1,0 +1,583 @@
+/* ========================
+   SYSTEM
+======================== */
+
+:root {
+    --space-xs: 8px;
+    --space-sm: 10px;
+    --space-md: 20px;
+    --space-lg: 30px;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* ========================
+   LAYOUT
+======================== */
+
+body {
+    font-family: Arial;
+    background: #18181A;
+    color: white;
+    margin: 0;
+}
+
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+
+    padding: var(--space-xs) var(--space-md);
+
+    background: #1c1c1f;
+    border-bottom: 1px solid #2e2e33;
+}
+
+.dashboard-grid {
+    min-width: 900px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-md);
+}
+
+.container {
+    max-width: 1650px;
+    /* Limits width on big screens */
+    margin: 0 auto;
+    padding: var(--space-md);
+    box-sizing: border-box;
+}
+
+/* Sidebar and Content Area wrappers */
+.sidebar {
+    width: 260px;
+}
+
+.content-area {
+    min-width: 0;
+    /* Prevents chart blowout */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* ========================
+    FILTERS
+======================== */
+.filters {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1px;
+    align-items: flex-start;
+}
+
+.date-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+/* Add this to your CSS to support input highlighting */
+.custom-filter input.control.active {
+    border: 1px solid #fc5200;
+    color: white;
+}
+
+.activity-filter,
+.preset-filter,
+.custom-filter {
+    display: flex;
+    flex-direction: row;
+    gap: 1px;
+    align-items: center;
+}
+
+/* ========================
+   COMPONENTS
+======================== */
+
+.card {
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: var(--space-md);
+    background: transparent;
+}
+
+.card-sm {
+    padding: var(--space-sm);
+}
+
+.control {
+    background: transparent;
+    border: 1px solid #333;
+    color: #ccc;
+    font-size: 0.85rem;
+    opacity: 0.85;
+    cursor: pointer;
+    transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.control.active {
+    background: #fc5200;
+    color: white;
+    transform: scale(0.97);
+
+}
+
+.control:hover,
+.control.active {
+    opacity: 1;
+}
+
+/* The animation keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* The class we will toggle */
+.fade-in {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Ensure these containers start hidden or handle the transition smoothly */
+#activity-detail-content,
+.stats-items,
+.graph-content {
+    opacity: 1;
+    /* Default state */
+}
+
+/* 1. Standard Properties (Firefox) */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #18181A;
+    /* thumb | track */
+}
+
+/* 2. Webkit Properties (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 8px;
+    /* Width of vertical scrollbar */
+    height: 8px;
+    /* Height of horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #18181A;
+    /* The "path" of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #444;
+    /* The draggable part */
+    border: 2px solid #18181A;
+    /* Creates "padding" around the thumb */
+}
+
+.empty-state {
+    display: none;
+    /* Hidden by default, toggled by JS */
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #1c1c1f;
+    border: 1px dashed #444;
+    text-align: center;
+    color: #888;
+    padding: var(--space-md);
+    box-sizing: border-box;
+}
+
+.empty-state h3 {
+    margin: 10px 0 5px 0;
+    color: #ccc;
+}
+
+.empty-state p {
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* ========================
+   TITLE
+======================== */
+.title {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+}
+
+.title-accent {
+    color: #fc5200;
+    font-weight: 900;
+    font-size: 2.2rem;
+    letter-spacing: -4px;
+}
+
+.title-primary {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+/* ========================
+   STATS
+======================== */
+.stats-date {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #ccc;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: #888;
+    text-transform: uppercase;
+}
+
+/* ========================
+   TIMELINE
+======================== */
+
+.timeline-container {
+    border: 1px solid #333;
+    width: 100%;
+    max-height: 534px;
+    overflow: auto;
+}
+
+#timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 26px);
+    gap: 3px;
+    padding: var(--space-md);
+    /* grid-auto-flow: row dense;*/
+}
+
+.month-label {
+    grid-column: 1 / span 7;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 8px;
+    margin-bottom: 2px;
+    color: #ffffff;
+}
+
+.day {
+    border: 1px solid #333;
+    border-radius: 4px;
+    font-size: 11px;
+    width: 26px;
+    height: 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* The active selection on the timeline */
+.day.active-day {
+    /* 1. This creates a solid "border" that perfectly follows the box shape */
+    box-shadow: 0 0 0 3px #4DA3FF;
+
+    /* 2. Optional: adds a slight outer glow to make it pop even more */
+    /* box-shadow: 0 0 0 3px #4DA3FF, 0 0 10px rgba(77, 163, 255, 0.5); */
+
+    /* 3. Keep the z-index so the shadow doesn't hide behind neighboring boxes */
+    position: relative;
+    z-index: 10;
+
+    /* 4. Subtle scale to help it stand out */
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+.intensity-0 {
+    background: #18181A;
+}
+
+.intensity-1 {
+    background: #fc54005e;
+}
+
+.intensity-2 {
+    background: #fc5400ad;
+}
+
+.intensity-3 {
+    background: #fc5200;
+}
+
+/* ========================
+   ACTIVITY
+======================== */
+
+.activity-detail {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+#activity-detail-content {
+    overflow-y: auto;
+    flex: 1;
+    height: 100%;
+}
+
+#activity-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #ccc;
+}
+
+.activity-item {
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid #333;
+}
+
+.activity-name {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.activity-meta {
+    font-size: 13px;
+    color: #aaa;
+}
+
+.activity-main {
+    display: flex;
+    justify-content: space-between;
+    margin: var(--space-sm) 0;
+}
+
+.activity-secondary {
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #ccc;
+}
+
+.activity-context {
+    font-size: 12px;
+    color: #888;
+}
+
+.activity-main .stat {
+    text-align: left;
+    flex: 1;
+    padding: 0 0px;
+    position: relative;
+}
+
+.activity-detail-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Split the detail area in two */
+    gap: var(--space-md);
+    height: 200px;
+    /* Give it a fixed height */
+    width: 100%;
+    box-sizing: border-box;
+    grid-template-rows: 200px;
+}
+
+#activity-detail-area {
+    /* Ensure this doesn't push the grid height */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#activity-map {
+    height: 200px;
+    max-width: 100%;
+    background: #1c1c1f;
+    /* Matches your dashboard */
+    border-radius: 4px;
+    border: 1px solid #333;
+    z-index: 1;
+    /* Keeps it below menus but above backgrounds */
+}
+
+#map-dock {
+    width: 100%;
+    height: 200px;
+    position: relative;
+}
+
+#map-dock > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#map-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.map-control-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 1000;
+    /* Above Leaflet layers */
+    background: transparent;
+    border: transparent;
+    border-radius: 4px;
+    color: #ccc;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.map-control-btn:hover {
+    color: white;
+}
+
+#map-wrapper.fullscreen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Perfectly centers it */
+    width: 95vw;  /* Now you can go big! */
+    height: 90vh;
+    z-index: 9999;
+    background: #18181A;
+    
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    border-radius: 8px;
+}
+
+#map-wrapper.fullscreen #activity-map {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+
+/* ========================
+   MAP PLACEHOLDER
+======================== */
+
+#activity-map-placeholder {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: none;
+    /* Controlled by JS */
+    align-items: center;
+    justify-content: center;
+    background-color: #1c1c1f;
+    border: 1px dashed #444;
+    /* Dashed border looks "empty" but intentional */
+    text-align: center;
+    color: #888;
+}
+
+.placeholder-content {
+    padding: var(--space-md);
+}
+
+.placeholder-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+.placeholder-content h3 {
+    margin: 0 0 8px 0;
+    color: #ccc;
+    font-size: 1.1rem;
+}
+
+.placeholder-content p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    max-width: 200px;
+    /* Keeps text tidy */
+}
+
+/* Make the map line match Strava Orange */
+.leaflet-interactive {
+    stroke: #fc5200;
+    stroke-width: 2;
+}
+
+/* ========================
+   GRAPHS
+======================== */
+.graph {
+    position: relative;
+    padding-top: var(--space-md);
+    /* space for tabs */
+    margin-top: 40px;
+}
+
+.graph-tabs {
+    position: absolute;
+    top: 0;
+    left: var(--space-xs);
+    transform: translateY(-100%);
+    /* sits ON the border */
+    display: flex;
+}
+
+.tab {
+    background: #18181A;
+    /* match page background */
+    border: 1px solid #333;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    color: #aaa;
+    cursor: pointer;
+}
+
+/* Active tab blends into the card */
+.tab.active {
+    background: #18181A;
+    color: white;
+    border-bottom: 1px solid #18181A;
+    /* hides the seam */
+}
+
+/* Makes the points on the graph show a pointer cursor */
+.js-plotly-plot .plotly .cursor-crosshair {
+    cursor: pointer !important;
+}

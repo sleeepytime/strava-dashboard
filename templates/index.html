@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>STRAVA Dashboard</title>
+    <!--
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css', v=range(1, 1000)|random) }}">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mapbox/polyline@1.1.1/src/polyline.min.js"></script>
+</head>
+
+<body data-start="{{ start_date }}" data-end="{{ end_date }}">
+
+    <noscript>
+        <div style="padding: 20px; text-align: center; color: white;">
+            This dashboard requires JavaScript to render the charts. Please enable it to continue.
+        </div>
+    </noscript>
+
+    <header class="dashboard-header">
+
+        <div class="title">
+            <span class="title-accent">STRAVA</span>
+            <span class="title-primary">Dashboard</span>
+        </div>
+
+        <nav class="filters">
+            <div class="activity-filter">
+                <button class="activity-btn control active" data-type="run">Runs</button>
+                <button class="activity-btn control active" data-type="walk">Walks</button>
+            </div>
+
+            <div class="date-filter">
+                <div class="preset-filter">
+                    <button class="control" data-range="all">All</button>
+                    <button class="control" data-range="365">1Y</button>
+                    <button class="control" data-range="180">6M</button>
+                    <button class="control" data-range="90">3M</button>
+                    <button class="control" data-range="30">1M</button>
+                    <button class="control" data-range="7">1W</button>
+                </div>
+
+                <div class="custom-filter">
+                    <input type="date" class="control" id="start-date" value="{{ start_date or '' }}">
+                    <input type="date" class="control" id="end-date" value="{{ end_date or '' }}">
+                </div>
+            </div>
+
+        </nav>
+
+    </header>
+
+    <div class="container">
+        {% from "components.html" import stat_item %}
+
+        <main class="dashboard-grid">
+
+            <!-- SIDEBAR -->
+            <section class="sidebar stack">
+
+                <!-- STATS -->
+                <div class="stats-container">
+                    <span class="stats-date" id="stats-date-range">
+                        {{ start_date or "All Time" }}{% if end_date %} – {{ end_date }}{% endif %}
+                    </span>
+                    <div class="stats-items">
+                        {{ stat_item(total_miles, "Miles", "total-miles") }}
+                        {{ stat_item(total_time, "Time", "total-time") }}
+                        {{ stat_item(total_activities, "Activities", "total-activities") }}
+                    </div>
+                </div>
+
+                <!-- TIMELINE -->
+                <div class="timeline-container">
+                    <div class="timeline" id="timeline-grid">
+                        {% for day in timeline_days %}
+                        {% if day.show_month %}
+                        <div class="month-label">{{ day.month_label }}</div>
+                        {% endif %}
+                        <div class="day intensity-{{ day.intensity }}" data-tooltip="{{ day.tooltip }}">
+                            {{ day.day }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTENT-AREA -->
+            <section class="content-area stack">
+
+                <!-- ACTIVITY DETAIL -->
+                <div class="activity-container">
+                    <span id="activity-title">Activity</span>
+                    <div class="activity-detail-wrapper">
+                        <div id="activity-detail-area" style="height: 100%;">
+                            <div id="activity-detail-content" class="activity-detail card card-sm"></div>
+
+                            <div id="activity-empty" class="empty-state">
+                                <h3>No Activity Found</h3>
+                                <p>Select a different date range or activity type.</p>
+                            </div>
+                        </div>
+
+                        <div id="map-dock">
+                            <div id="map-wrapper">
+                                <div id="activity-map"></div>
+                                <button id="map-expand-btn" class="map-control-btn">⤢</button>
+                            </div>
+
+                            <div id="activity-map-placeholder" class="empty-state">
+                                <h3>No Map Data</h3>
+                                <p>This activity does not contain GPS data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- GRAPHS -->
+                <div class="graph-container">
+                    <div class="graph card">
+                        <div class="graph-tabs">
+                            <button class="tab active" data-graph="miles">Distance</button>
+                            <button class="tab" data-graph="pace">Pace</button>
+                        </div>
+
+                        <div class="graph-content">
+                            <div id="mile_chart"></div>
+                            <div id="pace_chart" style="display: none;"></div>
+
+                            <div id="graph-empty" class="empty-state" style="display: none;">
+                                <h3>No Data to Plot</h3>
+                                <p>Try adjusting your filters or date range.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script type="module" src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>

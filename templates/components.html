@@ -1,0 +1,16 @@
+{% macro stat_item(value, label, id=None) %}
+<div class="stat card card-sm">
+    <span class="stat-value" {% if id %}id="{{ id }}"{% endif %}>
+        {{ value }}
+    </span>
+    <span class="stat-label">{{ label }}</span>
+</div>
+{% endmacro %}
+
+{% macro empty_state(title, message, icon="⚠️") %}
+<div class="empty-state">
+    <div class="empty-icon">{{ icon }}</div>
+    <h3>{{ title }}</h3>
+    <p>{{ message }}</p>
+</div>
+{% endmacro %}
