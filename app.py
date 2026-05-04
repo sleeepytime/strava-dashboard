@@ -5,22 +5,22 @@ from services.visuals import get_graphs
 
 app = Flask(__name__)
 
-@app.route("/update_graphs")
+@app.route("/api/graphs")
 def update_graphs():
     df, _, _ = get_current_view_data(request.args)
     return jsonify(get_graphs(df))
 
-@app.route("/update_timeline")
+@app.route("/api/timeline")
 def update_timeline():
     df, start, end = get_current_view_data(request.args)
     return jsonify(build_timeline(df, start, end))
 
-@app.route("/update_stats")
+@app.route("/api/stats")
 def update_stats():
     df, _, _ = get_current_view_data(request.args)
     return jsonify(compute_stats(df))
 
-@app.route("/activity_detail")
+@app.route("/api/activity")
 def activity_detail():
     df, _, _ = get_current_view_data(request.args)
 

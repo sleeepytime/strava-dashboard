@@ -88,7 +88,7 @@ export function updateGraphSelection(dateStr) {
 
 export async function loadGraphs(start, end, types, onDayClick) {
     try {
-        const res = await fetch(`/update_graphs?start=${start}&end=${end}&types=${types}`);
+        const res = await fetch(`/api/graphs?start=${start}&end=${end}&types=${types}`);
         const data = await res.json();
         const hasData = data.mile_chart.data?.length > 0
 
