@@ -44,8 +44,19 @@ document.addEventListener("DOMContentLoaded", () => {
     DOM.startInput.value = initialStart;
     DOM.endInput.value = initialEnd;
 
-    loadAll(initialStart, initialEnd);
+    // Wait until plotly is ready to display the graph
+    const graphContainer = document.getElementById("mile_chart");
+    const observer = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            // Check if the element actually has a width now
+            if (entry.contentRect.width > 0) {
+                loadAll(initialStart, initialEnd);
+                observer.disconnect(); // Stop watching once we've loaded
+            }
+        }
+    });
 
+    observer.observe(graphContainer);
 });
 
 function initUI() {
