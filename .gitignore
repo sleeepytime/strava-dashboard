@@ -222,3 +222,6 @@ __marimo__/
 tokens.json
 .DS_Store
 .env*
+deploy_notes.txt
+strava-dashboard.zip
+strava_dashboard_code_archive.txt

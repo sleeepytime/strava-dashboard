@@ -45,4 +45,4 @@ jobs:
           git add processed_strava_activities.csv preprocessed_strava_activities.csv
           
           # Only commit if there are actually changes to avoid errors
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Strava data [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Strava data" && git push)
