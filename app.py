@@ -1,3 +1,4 @@
+# app.py
 from flask import Flask, render_template, request, jsonify
 from services.data import get_current_view_data
 from services.analytics import compute_stats, get_activity_detail, build_timeline 

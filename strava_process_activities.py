@@ -1,4 +1,4 @@
-#strava_process_activities
+# strava_process_activities.py
 
 import pandas as pd
 import numpy as np
@@ -51,13 +51,13 @@ df['month_cumulative_miles'] = df.groupby(['year', 'month'])['distance_miles'].c
 # Cumulative miles overall
 df['total_cumulative_miles'] = df['distance_miles'].cumsum()
 
-# 1️ Distance conversion check
+# 1 Distance conversion check
 mask_distance = ~np.isclose(df['distance_miles'], df['distance_meters'] / 1609.344)
 if mask_distance.any():
     print("Distance conversion mismatch in these rows:")
     print(df.loc[mask_distance, ['id','distance_meters','distance_miles']])
 
-# 2️ Month cumulative miles check
+# 2 Month cumulative miles check
 for (year, month), group in df.groupby(['year','month']):
     if group['month_cumulative_miles'].diff().min() < 0:
         print(f"Month cumulative miles decreasing in {year}-{month}:")
@@ -70,7 +70,7 @@ if mask_total.any():
     print("Total cumulative miles decreased in these rows:")
     print(df.loc[mask_total, ['id','total_cumulative_miles','distance_miles']])
 
-# 4️ Pace check (moving_time_seconds / distance_miles)
+# 4 Pace check (moving_time_seconds / distance_miles)
 calculated_pace = df['moving_time_seconds'] / df['distance_miles'] / 60
 mask_pace = ~np.isclose(calculated_pace, df['pace_min_per_mile'])
 if mask_pace.any():

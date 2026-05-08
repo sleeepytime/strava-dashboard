@@ -1,13 +1,17 @@
+# daily_update.yml
 name: Daily Strava Update
 
 on:
   schedule:
     - cron: '0 8 * * *'  # Runs at 8:00 AM UTC (Daily)
-  workflow_dispatch:      # Allows you to click a button to run it manually
+  workflow_dispatch:      # Allows manual trigger
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write    # Grants the action permission to push code/data back to the repo
 
     steps:
       - name: Checkout Repository
@@ -33,9 +37,12 @@ jobs:
           python strava_process_activities.py
 
       - name: Commit and Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Ensure the token is available
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add processed_strava_activities.csv preprocessed_strava_activities.csv
+          
           # Only commit if there are actually changes to avoid errors
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Strava data" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Strava data [skip ci]" && git push)

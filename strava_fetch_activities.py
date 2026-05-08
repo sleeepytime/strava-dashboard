@@ -1,4 +1,4 @@
-#strava_fetch_activities
+# strava_fetch_activities.py
 
 import os
 import json

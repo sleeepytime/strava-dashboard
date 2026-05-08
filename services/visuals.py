@@ -1,3 +1,5 @@
+# visuals.py
+
 from services.analytics import build_grouped_metrics
 from services.utils import format_pace
 
