@@ -47,6 +47,6 @@ jobs:
           # Only commit if there are actually changes to avoid errors
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Strava data" && git push)
         
-        - name: Trigger Render Deploy
+      - name: Trigger Render Deploy
         if: success()
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
