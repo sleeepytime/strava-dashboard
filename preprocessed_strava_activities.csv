@@ -240,3 +240,5 @@ id,date,name,type,elapsed_time_seconds,moving_time_seconds,distance_meters,total
 18765081278,2026-06-02 22:17:00,PF Run,Run,2640,2640,6759.3 meter,0.0 meter,
 18799791039,2026-06-05 13:16:00,PF Run,Run,1528,1528,3862.4 meter,0.0 meter,
 18841993510,2026-06-08 15:55:00,PF Run,Run,2100,2100,5310.9 meter,0.0 meter,
+18872966587,2026-06-10 22:18:00,PF 1:1 Hill Repeats,Run,1020,1020,2896.8 meter,0.0 meter,
+18873423677,2026-06-10 22:37:00,PF Run,Run,1200,1200,3379.6 meter,0.0 meter,
