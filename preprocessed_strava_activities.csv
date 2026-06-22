@@ -244,3 +244,4 @@ id,date,name,type,elapsed_time_seconds,moving_time_seconds,distance_meters,total
 18873423677,2026-06-10 22:37:00,PF Run,Run,1200,1200,3379.6 meter,0.0 meter,
 18934337063,2026-06-15 15:39:44,PF Run,Run,2400,2400,5954.6 meter,0.0 meter,
 18946941248,2026-06-16 13:19:32,PF Rolling Hills,Run,2051,2051,5793.7 meter,0.0 meter,
+19011224926,2026-06-21 10:04:47,PF 1:1 Hill  Repeats,Run,1101,1101,3057.8 meter,0.0 meter,
